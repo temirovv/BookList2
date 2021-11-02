@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<title>Booklist</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+</head>
+<body>
+	<div class="container-fluid pt-5">
+	<table class="table table-bordered">
+		<caption><p>Add a book - <a href="{% url 'books.create' %}" title="">Add</a></p> </caption>
+		<thead>
+    		<tr>
+      			<th>Title</th>
+      			<th>Author</th>
+      			<th>Description</th>
+      			<th>Delete/Update</th>
+    		</tr>
+  		</thead>
+  		<tbody>
+	    	{% for book in pages %}
+	      		<tr>
+	      		<td><i>{{book.title}}</i></td>
+				<td><b>{{book.author}}</b></td>
+				<td>
+					{{book.description}}
+				</td>
+				<td>
+					<a href="{% url 'books.delete' book.pk%}" title="">delete</a> |
+					<a href="{% url 'books.update' book.pk%}" title="">update</a>
+				</td>
+	      		</tr>
+    		{% endfor %}
+  		</tbody>
+	</table>
+	</div>
+	{% if pages.has_other_pages %}
+	<div class="container">
+  	<ul class="pagination">
+
+    	{% if pages.has_previous %}
+
+	      <li class="page-item">
+	      	<a class="page-link" href="?page={{ pages.previous_page_number }}">&laquo;</a>
+	      </li>
+
+	    {% else %}
+
+    	  <li class="page-item"><span>&laquo;</span></li>
+
+    	{% endif %}
+
+    	{% for i in pages.paginator.page_range %}
+
+      		{% if pages.number == i %}
+        		
+        		<li class="page-item active">
+        			<span class="page-link">{{ i }}</span>
+        		</li>
+      		
+      		{% else %}
+	        	
+	        	<li class="page-item">
+	        		<a class="page-link" href="?page={{ i }}">{{ i }}</a>
+	        	</li>
+
+      		{% endif %}
+
+    	{% endfor %}
+    	
+    	{% if pages.has_next %}
+
+      		<li class="page-item">
+      			<a class="page-link" href="?page={{ pages.next_page_number }}">&raquo;</a>
+      		</li>
+
+    	{% else %}
+
+      		<li class="page-item"><span>&raquo;</span></li>
+
+    	{% endif %}
+
+  	</ul>
+  	{% endif %}
+  	</div>
+  	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>	
+
+</body>
+</html>
