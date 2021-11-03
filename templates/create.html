@@ -4,6 +4,9 @@
 		<title>Add your book</title>
 	</head>
 	<body>
+		{% if exists_st %}    
+			<p>This book already created</p>
+		{% endif %}
 		<form action="" method="POST" accept-charset="utf-8">
 			{% csrf_token %}
 			{{ form.as_p }}

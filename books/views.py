@@ -25,13 +25,22 @@ def index(request):
 
 
 def create(request):
+
     form_of_book = BookForm(request.POST or None)
 
-    if form_of_book.is_valid():
-        form_of_book.save()
-        return HttpResponseRedirect(reverse('books.home'))
+    exists_st = False
 
-    return render(request, 'create.html', {'form': form_of_book})
+    if form_of_book.is_valid():
+        if Book.objects.filter(title__iexact=request.POST['title']).exists():
+            exists_st = True
+            return render(request, 'create.html',
+                          {'form': form_of_book, 'exists_st': exists_st})
+        else:
+            form_of_book.save()
+            return HttpResponseRedirect(reverse('books.home'))
+
+    return render(request, 'create.html',
+                  {'form': form_of_book})
 
 
 def delete(request, pk):
